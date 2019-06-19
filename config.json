@@ -3,5 +3,5 @@
   "max_temperature": 30,
   "min_humidity": 50,
   "max_humidity": 60,
-  "refresh_rate": 1
+  "refresh_rate": 60
 }
