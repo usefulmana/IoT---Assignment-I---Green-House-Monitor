@@ -1,23 +1,10 @@
 import bluetooth
 import datetime
 from sense_hat import SenseHat
-from monitorAndNotify import GreenHouseMonitor
 from database import Database
 from data_checker import Checker
 from notification import Notification
-
-# print("performing inquiry...")
-#
-# nearby_devices = bluetooth.discover_devices(
-#         duration=8, lookup_names=True, flush_cache=True, lookup_class=False)
-#
-# print("found %d devices" % len(nearby_devices))
-#
-# for addr, name in nearby_devices:
-#     try:
-#         print("  %s - %s" % (addr, name))
-#     except UnicodeEncodeError:
-#         print("  %s - %s" % (addr, name.encode('utf-8', 'replace')))
+from temperature_calibrator import Calibrator
 
 
 class BlueToothMessenger:
@@ -27,39 +14,48 @@ class BlueToothMessenger:
         self._checker = Checker()
         self._notification = Notification()
         self._MY_PHONE_MAC_ADDRESS = '48:60:5F:CA:EC:6F'
-
-    @staticmethod
-    def search_nearby_devices():
-        print('fdas')
+        self._LAPTOP_MAC_ADDRESS = '00:28:F8:37:FA:F9'
 
     def send_message(self):
         mac_address = None
-        print('gfjh')
         nearby_devices = bluetooth.discover_devices(duration=8)
-        print(nearby_devices)
         for address in nearby_devices:
-            if address == self._MY_PHONE_MAC_ADDRESS:
+            if address == self._MY_PHONE_MAC_ADDRESS or address == self._LAPTOP_MAC_ADDRESS:
                 mac_address = address
                 device_name = bluetooth.lookup_name(mac_address, timeout=7)
                 print("Found {} with MAC address: {}".format(device_name, mac_address))
                 break
-
+        # sock = bluetooth.BluetoothSocket(bluetooth.RFCOMM)
+        # port = 1
+        # sock.connect((self._MY_PHONE_MAC_ADDRESS, port))
         if mac_address is not None:
             temperature = round(self._sense.get_temperature(), 1)
-            calibrated_temp = GreenHouseMonitor.calibrate_temp(temperature)
+            calibrated_temp = Calibrator.calibrate_temperature(temperature)
             humidity = round(self._sense.get_humidity(), 1)
-            time = datetime.datetime.now()
 
-            temp_status = self._checker.check_temperature(GreenHouseMonitor.calibrate_temp(temperature))
+            temp_status = self._checker.check_temperature(calibrated_temp)
             humidity_status = self._checker.check_humidity(humidity)
 
             """If the return value does not contain OK meaning temperature or humidity or both are out of range, and if
             the status value in database is 'OK', a notification will be sent"""
             if temp_status.find('OK') == -1:
-                self._notification.push_notification(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), temp_status)
+                self._notification.push_notification(
+                    "{}. Current Temperature: {} C".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                                           calibrated_temp), temp_status)
+            else:
+                self._notification.push_notification(
+                    "{}. Current Temperature: {} C".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                                           calibrated_temp), 'OK')
             if humidity_status.find('OK') == -1:
-                self._notification.push_notification(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
-                                                     humidity_status)
+                self._notification.push_notification(
+                    "{}. Current Humidity: {} %".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                                        humidity),
+                    humidity_status)
+            else:
+                self._notification.push_notification(
+                    "{}. Current Humidity: {} %".format(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+                                                        humidity), 'OK')
 
 
-print('fdasfdas')
+messenger = BlueToothMessenger()
+messenger.send_message()
