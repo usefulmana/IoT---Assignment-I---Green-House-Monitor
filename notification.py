@@ -10,6 +10,5 @@ class Notification:
         try:
             pb = PushBullet(self._API_KEY)
             push = pb.push_note(title, body)
-            print('push')
         except (PushbulletError, InvalidKeyError, PushError) as e:
             print(e)

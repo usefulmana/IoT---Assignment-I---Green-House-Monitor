@@ -9,7 +9,7 @@ class Database():
         self._host = 'localhost'
         self._user = 'pi'
         self._password = 'GAtech321'
-        self._today_date = datetime.datetime.today()
+        self._today_date = datetime.datetime.today().date()
 
     def save_data(self, date, temperature, humidity):
         try:
@@ -42,8 +42,9 @@ class Database():
             if my_database.is_connected():
                 cursor = my_database.cursor()
                 sql = "SELECT * FROM data_log"
-                data_list = cursor.execute(sql)
-                for row in data_list:
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                for row in result:
                     data.append(row)
                 return data
         except Error as e:
@@ -51,7 +52,7 @@ class Database():
         finally:
             my_database.close()
 
-    def save_daily_report(self, status):
+    def save_daily_notification(self, status):
         try:
             my_database = mysql.connector.connect(
                 host=self._host,
@@ -61,17 +62,16 @@ class Database():
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
-                sql = "INSERT INTO daily_report (date, status) values (%s,%s)"
+                sql = "INSERT INTO daily_notification (record_date, status) values (%s,%s)"
                 val = (datetime.datetime.now(), status)
                 cursor.execute(sql, val)
                 my_database.commit()
-                print('daily report')
         except Error as e:
             print(e)
         finally:
             my_database.close()
 
-    def read_daily_report(self):
+    def read_daily_notification(self):
         data = []
         try:
             my_database = mysql.connector.connect(
@@ -82,17 +82,16 @@ class Database():
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
-                sql = "SELECT * FROM daily_report"
-                data_list = cursor.execute(sql)
-                for row in data_list:
-                    data.append(row)
-                return data
+                sql = "SELECT * FROM daily_notification"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                return result
         except Error as e:
             print(e)
         finally:
             my_database.close()
 
-    def check_status_existence(self):
+    def check_notification_status(self):
         try:
             my_database = mysql.connector.connect(
                 host=self._host,
@@ -102,24 +101,21 @@ class Database():
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
-                sql = "SELECT * FROM daily_report WHERE record_date LIKE %s LIMIT 1"
-                cursor.execute(sql, self._today_date)
+                sql = "SELECT * FROM daily_notification WHERE record_date = %s LIMIT 1"
+                cursor.execute(sql, (self._today_date,))
                 result = cursor.fetchone()
-
                 if result == None:
                     return 0
                 elif result[2] == 'OK':
                     return 1
                 else:
                     return 2
-
-
         except Error as e:
             print(e)
         finally:
             my_database.close()
 
-    def update_daily_report(self, status):
+    def update_daily_notification(self, status):
         try:
             my_database = mysql.connector.connect(
                 host=self._host,
@@ -129,7 +125,7 @@ class Database():
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
-                sql = "UPDATE daily_report SET status = (%s) WHERE date = (%s)"
+                sql = "UPDATE daily_notification SET status = (%s) WHERE record_date = (%s)"
                 val = (status, self._today_date)
                 cursor.execute(sql, val)
                 my_database.commit()
