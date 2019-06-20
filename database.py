@@ -5,24 +5,24 @@ from mysql.connector import Error
 
 class Database():
     def __init__(self):
-        self.database_name = 'iota1'
-        self.host = 'localhost'
-        self.user = 'pi'
-        self.password = 'GAtech321'
-        self.today_date = datetime.datetime.today()
+        self._database_name = 'iota1'
+        self._host = 'localhost'
+        self._user = 'pi'
+        self._password = 'GAtech321'
+        self._today_date = datetime.datetime.today()
 
-    def save_data(self, temperature, humidity):
+    def save_data(self, date, temperature, humidity):
         try:
             my_database = mysql.connector.connect(
-                host=self.host,
-                database=self.database_name,
-                user=self.user,
-                passwd=self.password
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
                 sql = "INSERT INTO data_log (date, temperature, humidity) values (%s,%s,%s)"
-                val = (datetime.datetime.now(), temperature, humidity)
+                val = (date, temperature, humidity)
                 cursor.execute(sql, val)
                 my_database.commit()
         except Error as e:
@@ -34,10 +34,10 @@ class Database():
         data = []
         try:
             my_database = mysql.connector.connect(
-                host=self.host,
-                database=self.database_name,
-                user=self.user,
-                passwd=self.password
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
@@ -54,10 +54,10 @@ class Database():
     def save_daily_report(self, status):
         try:
             my_database = mysql.connector.connect(
-                host=self.host,
-                database=self.database_name,
-                user=self.user,
-                passwd=self.password
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
@@ -75,10 +75,10 @@ class Database():
         data = []
         try:
             my_database = mysql.connector.connect(
-                host=self.host,
-                database=self.database_name,
-                user=self.user,
-                passwd=self.password
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
@@ -95,15 +95,15 @@ class Database():
     def check_status_existence(self):
         try:
             my_database = mysql.connector.connect(
-                host=self.host,
-                database=self.database_name,
-                user=self.user,
-                passwd=self.password
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
                 sql = "SELECT * FROM daily_report WHERE record_date LIKE %s LIMIT 1"
-                cursor.execute(sql, self.today_date)
+                cursor.execute(sql, self._today_date)
                 result = cursor.fetchone()
 
                 if result == None:
@@ -122,15 +122,15 @@ class Database():
     def update_daily_report(self, status):
         try:
             my_database = mysql.connector.connect(
-                host=self.host,
-                database=self.database_name,
-                user=self.user,
-                passwd=self.password
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
                 sql = "UPDATE daily_report SET status = (%s) WHERE date = (%s)"
-                val = (status, self.today_date)
+                val = (status, self._today_date)
                 cursor.execute(sql, val)
                 my_database.commit()
 

@@ -1,22 +1,37 @@
 import json
 
 
-def parse_json(file_name):
-    """Parsing a json file and returning a dictionary object"""
-    with open(file_name, 'r') as data:
-        return json.load(data)
-
-
 class Parser:
     def __init__(self):
-        self.filename = 'config.json'
+        self._filename = 'config.json'
 
-        with open(self.filename, 'r') as file:
+        with open(self._filename, 'r') as file:
             data = json.load(file)
 
-        self.MIN_HUMIDITY = data['min_humidity']
-        self.MAX_HUMIDITY = data['max_humidity']
-        self.MIN_TEMPERATURE = data['min_temperature']
-        self.MAX_TEMPERATURE = data['max_temperature']
-        self.REFRESH_RATE = data['refresh_rate']
+        self._MIN_HUMIDITY = data['min_humidity']
+        self._MAX_HUMIDITY = data['max_humidity']
+        self._MIN_TEMPERATURE = data['min_temperature']
+        self._MAX_TEMPERATURE = data['max_temperature']
+        self._REFRESH_RATE = data['refresh_rate']
+
+    @property
+    def min_humidity(self):
+        return self._MIN_HUMIDITY
+
+    @property
+    def max_humidity(self):
+        return self._MAX_HUMIDITY
+
+    @property
+    def min_temperature(self):
+        return self._MIN_TEMPERATURE
+
+    @property
+    def max_temperature(self):
+        return self._MAX_TEMPERATURE
+
+    @property
+    def refresh_rate(self):
+        return self._REFRESH_RATE
+
 

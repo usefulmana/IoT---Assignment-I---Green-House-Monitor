@@ -7,21 +7,21 @@ class Checker:
     def check_data(temperature, humidity):
         data = Parser()
 
-        if temperature < data.MIN_TEMPERATURE:
+        if temperature < data.min_temperature:
             status = 'BAD'
-            report = '{}*C below minimum temperature.'.format(round(data.MIN_TEMPERATURE - temperature, 2))
+            report = '{}*C below minimum temperature.'.format(round(data.min_temperature - temperature, 2))
             return status + ': ' + report
-        if temperature > data.MAX_TEMPERATURE:
+        if temperature > data.max_temperature:
             status = 'BAD'
-            report = '{}*C above maximum temperature.'.format(round(temperature - data.MAX_TEMPERATURE, 2))
+            report = '{}*C above maximum temperature.'.format(round(temperature - data.max_temperature, 2))
             return status + ': ' + report
-        if humidity < data.MIN_HUMIDITY:
+        if humidity < data.min_humidity:
             status = 'BAD'
-            report = '{}*% below minimum humidity.'.format(round(data.MIN_HUMIDITY - humidity, 2))
+            report = '{}*% below minimum humidity.'.format(round(data.min_humidity - humidity, 2))
             return status + ': ' + report
-        if humidity > data.MAX_HUMIDITY:
+        if humidity > data.max_humidity:
             status = 'BAD'
-            report = '{}*% above maximum humidity.'.format(round(humidity - data.MAX_HUMIDITY, 2))
+            report = '{}*% above maximum humidity.'.format(round(humidity - data.max_humidity, 2))
             return status + ': ' + report
 
         return 'OK'

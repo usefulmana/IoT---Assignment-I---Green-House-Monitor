@@ -4,11 +4,11 @@ from pushbullet.errors import PushbulletError, InvalidKeyError, PushError
 
 class Notification:
     def __init__(self):
-        self.API_KEY = 'o.IcOB60dNl8mrBFHVI0AJtx68ZmSTCJIO'
+        self._API_KEY = 'o.IcOB60dNl8mrBFHVI0AJtx68ZmSTCJIO'
 
     def push_notification(self, title, body):
         try:
-            pb = PushBullet(self.API_KEY)
+            pb = PushBullet(self._API_KEY)
             push = pb.push_note(title, body)
             print('push')
         except (PushbulletError, InvalidKeyError, PushError) as e:
