@@ -18,4 +18,5 @@ class Parser:
         self.MAX_HUMIDITY = data['max_humidity']
         self.MIN_TEMPERATURE = data['min_temperature']
         self.MAX_TEMPERATURE = data['max_temperature']
+        self.REFRESH_RATE = data['refresh_rate']
 

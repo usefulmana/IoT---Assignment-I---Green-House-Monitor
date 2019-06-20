@@ -8,7 +8,7 @@ class Database():
         self.database_name = 'iota1'
         self.host = 'localhost'
         self.user = 'pi'
-        self.password = 'GATech321'
+        self.password = 'GAtech321'
         self.today_date = datetime.datetime.today()
 
     def save_data(self, temperature, humidity):
@@ -65,6 +65,7 @@ class Database():
                 val = (datetime.datetime.now(), status)
                 cursor.execute(sql, val)
                 my_database.commit()
+                print('daily report')
         except Error as e:
             print(e)
         finally:
@@ -101,7 +102,7 @@ class Database():
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
-                sql = "SELECT * FROM daily_report WHERE date = (%s) LIMIT 1"
+                sql = "SELECT * FROM daily_report WHERE record_date LIKE %s LIMIT 1"
                 cursor.execute(sql, self.today_date)
                 result = cursor.fetchone()
 
@@ -112,6 +113,26 @@ class Database():
                 else:
                     return 2
 
+
+        except Error as e:
+            print(e)
+        finally:
+            my_database.close()
+
+    def update_daily_report(self, status):
+        try:
+            my_database = mysql.connector.connect(
+                host=self.host,
+                database=self.database_name,
+                user=self.user,
+                passwd=self.password
+            )
+            if my_database.is_connected():
+                cursor = my_database.cursor()
+                sql = "UPDATE daily_report SET status = (%s) WHERE date = (%s)"
+                val = (status, self.today_date)
+                cursor.execute(sql, val)
+                my_database.commit()
 
         except Error as e:
             print(e)
