@@ -59,4 +59,3 @@ config = Parser()
 
 while True:
     monitor.main()
-    time.sleep(config.refresh_rate)
