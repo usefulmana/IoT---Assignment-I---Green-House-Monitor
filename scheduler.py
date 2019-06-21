@@ -1,21 +1,26 @@
 from crontab import CronTab
 
-pi_cron = CronTab(user='pi')
-pi_cron.remove_all()
+
+class Scheduler:
+    @staticmethod
+    def run_script():
+        pi_cron = CronTab(user='pi')
+        pi_cron.remove_all()
+
+        # Schedule the monitor app to run every minute
+        schedule_monitor = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 monitorAndNotify.py")
+        schedule_monitor.minute.every(1)
+
+        # Schedule bluetooth app to run every 3 minutes
+        schedule_bluetooth = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 bluetooth_messenger.py")
+        schedule_bluetooth.minute.every(1)
+
+        # Schedule to create a report every 10 minutes
+        schedule_report = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 createReport.py")
+        schedule_report.hour.every(3)
+
+        pi_cron.write()
 
 
-test_job = pi_cron.new(command="python -u /home/pi/Desktop/IoT/test.py")
-test_job.minute.every(1)
-# schedule_monitor = pi_cron.new(command="/usr/bin/python3.5 -u /home/pi/Desktop/IoT/monitorAndNotify.py")
-# schedule_monitor.minute.every(1)
-#
-# schedule_bluetooth = pi_cron.new(command="/usr/bin/python3.5 -u /home/pi/Desktop/IoT/bluetooth_messenger.py")
-# schedule_bluetooth.minute.every(1)
-#
-# schedule_report = pi_cron.new(command="/usr/bin/python3.5 -u /home/pi/Desktop/IoT/createReport.py")
-# schedule_bluetooth.hour.every(1)
+Scheduler.run_script()
 
-for item in pi_cron:
-    print(item)
-
-pi_cron.write()

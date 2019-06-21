@@ -1,0 +1,8 @@
+Steps to setup cron jobs:
+    - crontab -e
+    - choose nano
+    - enter: ***** cd /home/pi/Desktop/IoT && /usr/bin/python3.5 bluetooth_messenger.py
+    - save
+    - done
+
+To view cron logs: grep CRON /var/log/syslog

@@ -1,7 +1,5 @@
-import time
 import datetime
 from sense_hat import SenseHat
-from json_parser import Parser
 from database import Database
 from notification import Notification
 from data_checker import Checker
@@ -18,6 +16,7 @@ class GreenHouseMonitor:
 
     def main(self):
         status_number = self._database.check_notification_status()
+        self._sense.show_message('ok')
         if status_number == 0:
             self._database.save_daily_notification('OK')
 
@@ -55,7 +54,4 @@ class GreenHouseMonitor:
 
 
 monitor = GreenHouseMonitor()
-config = Parser()
-
-while True:
-    monitor.main()
+monitor.main()
