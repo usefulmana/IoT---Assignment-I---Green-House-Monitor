@@ -8,6 +8,8 @@ from temperature_calibrator import Calibrator
 
 
 class BlueToothMessenger:
+    """ This class is responsible for detecting nearby BlueTooth devices with a predetermined set of MAC addresses.
+    And then it will trigger a notification to that device. Rename because of its and conflicts with a package"""
     def __init__(self):
         self._sense = SenseHat()
         self._database = Database()
@@ -29,10 +31,12 @@ class BlueToothMessenger:
         # port = 1
         # sock.connect((self._MY_PHONE_MAC_ADDRESS, port))
         if mac_address is not None:
+            # Get data from sense HAT
             temperature = round(self._sense.get_temperature(), 1)
             calibrated_temp = Calibrator.calibrate_temperature(temperature)
             humidity = round(self._sense.get_humidity(), 1)
 
+            # Check if data is within range
             temp_status = self._checker.check_temperature(calibrated_temp)
             humidity_status = self._checker.check_humidity(humidity)
 

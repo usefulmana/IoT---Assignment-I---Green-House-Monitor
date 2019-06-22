@@ -2,10 +2,13 @@ from json_parser import Parser
 
 
 class Checker:
-
+    """This class will take temperature and humidity and determine if they are within range and send back appropriate
+    response"""
     @staticmethod
     def check_temperature(temperature):
+        # Get data from parser
         data = Parser()
+        # Compare data
         if temperature < data.min_temperature:
             status = 'BAD'
             report = '{}*C below minimum temperature.'.format(round(data.min_temperature - temperature, 2))

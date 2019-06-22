@@ -45,12 +45,6 @@ class GreenHouseMonitor:
         else:
             pass
 
-        # If temperature or humidity is out of range, red led will light up. If not, green led will light up.
-        # if temp_status.find('OK') == -1 or humidity_status.find('OK') == -1:
-        #     self._led.red_light_on()
-        # else:
-        #     self._led.green_light_on()
-
 
 monitor = GreenHouseMonitor()
 monitor.main()

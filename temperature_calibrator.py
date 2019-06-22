@@ -2,6 +2,7 @@ import os
 
 
 class Calibrator:
+    """This class will approximate the real room temperature from the sense hat data"""
     @staticmethod
     def get_cpu_temp():
         """Getting Pi's CPU Temp"""

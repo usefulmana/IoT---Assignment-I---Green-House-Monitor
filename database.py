@@ -5,7 +5,9 @@ from json_parser import Parser
 
 
 class Database:
+    """ All database operations are in here."""
     def __init__(self):
+        """Enter your own info here"""
         self._database_name = 'iota1'
         self._host = 'localhost'
         self._user = 'pi'
@@ -13,6 +15,7 @@ class Database:
         self._today_date = datetime.datetime.today().date()
 
     def save_data(self, date, temperature, humidity):
+        """Save data to database"""
         try:
             my_database = mysql.connector.connect(
                 host=self._host,
@@ -32,6 +35,7 @@ class Database:
             my_database.close()
 
     def read_data(self):
+        """Read data from data base"""
         data = []
         try:
             my_database = mysql.connector.connect(
@@ -54,6 +58,7 @@ class Database:
             my_database.close()
 
     def save_daily_notification(self, status):
+        """Save daily notif"""
         try:
             my_database = mysql.connector.connect(
                 host=self._host,
@@ -93,6 +98,7 @@ class Database:
             my_database.close()
 
     def check_notification_status(self):
+        """Check notif status"""
         try:
             my_database = mysql.connector.connect(
                 host=self._host,

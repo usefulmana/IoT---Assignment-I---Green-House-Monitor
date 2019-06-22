@@ -2,6 +2,7 @@ from crontab import CronTab
 
 
 class Scheduler:
+    """ This class is responsible for adding the below scripts into RPi's crontab"""
     @staticmethod
     def run_script():
         pi_cron = CronTab(user='pi')
@@ -15,7 +16,7 @@ class Scheduler:
         schedule_bluetooth = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 bluetooth_messenger.py")
         schedule_bluetooth.minute.every(1)
 
-        # Schedule to create a report every 3 minutes
+        # Schedule to create a report every 3 hours
         schedule_report = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 createReport.py")
         schedule_report.hour.every(3)
 

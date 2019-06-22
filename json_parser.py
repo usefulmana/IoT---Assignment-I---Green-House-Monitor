@@ -2,6 +2,8 @@ import json
 
 
 class Parser:
+
+    """This class will parse a json config file save its content as properties."""
     def __init__(self):
         self._filename = 'config.json'
 
