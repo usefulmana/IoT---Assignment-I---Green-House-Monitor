@@ -12,7 +12,7 @@ class Parser:
         self._MAX_HUMIDITY = data['max_humidity']
         self._MIN_TEMPERATURE = data['min_temperature']
         self._MAX_TEMPERATURE = data['max_temperature']
-        self._REFRESH_RATE = data['refresh_rate']
+        self._NUMBER_OF_DAYS_IN_REPORT = data['number_of_days_in_report']
 
     @property
     def min_humidity(self):
@@ -31,7 +31,7 @@ class Parser:
         return self._MAX_TEMPERATURE
 
     @property
-    def refresh_rate(self):
-        return self._REFRESH_RATE
+    def number_of_days_in_report(self):
+        return self._NUMBER_OF_DAYS_IN_REPORT
 
 

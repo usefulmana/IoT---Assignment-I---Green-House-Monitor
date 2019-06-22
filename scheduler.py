@@ -11,11 +11,11 @@ class Scheduler:
         schedule_monitor = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 monitorAndNotify.py")
         schedule_monitor.minute.every(1)
 
-        # Schedule bluetooth app to run every 3 minutes
+        # Schedule bluetooth app to run every minute
         schedule_bluetooth = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 bluetooth_messenger.py")
         schedule_bluetooth.minute.every(1)
 
-        # Schedule to create a report every 10 minutes
+        # Schedule to create a report every 3 minutes
         schedule_report = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 createReport.py")
         schedule_report.hour.every(3)
 

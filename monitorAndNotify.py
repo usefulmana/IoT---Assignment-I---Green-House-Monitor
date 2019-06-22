@@ -16,14 +16,13 @@ class GreenHouseMonitor:
 
     def main(self):
         status_number = self._database.check_notification_status()
-        self._sense.show_message('ok')
         if status_number == 0:
             self._database.save_daily_notification('OK')
 
         record_time = datetime.datetime.now()
-        temperature = round(self._sense.get_temperature(), 1)
+        temperature = round(self._sense.get_temperature(), 2)
         calibrated_temp = Calibrator.calibrate_temperature(temperature)
-        humidity = round(self._sense.get_humidity(), 1)
+        humidity = round(self._sense.get_humidity(), 2)
         self._database.save_data(record_time, calibrated_temp, humidity)
 
         # Checking temperature and humidity of they are within range

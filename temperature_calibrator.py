@@ -11,4 +11,4 @@ class Calibrator:
 
     @staticmethod
     def calibrate_temperature(temperature):
-        return round(temperature - (Calibrator.get_cpu_temp() - temperature) / 1.5)
+        return round(temperature - (Calibrator.get_cpu_temp() - temperature) / 1.5, 2)
