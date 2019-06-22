@@ -23,6 +23,7 @@ class Report:
     @staticmethod
     def create_detailed_report():
         db = Database()
+
         with open("detailed_data.csv", "w+") as report:
             writer = csv.writer(report)
             writer.writerow(
