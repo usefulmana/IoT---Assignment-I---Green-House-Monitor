@@ -222,7 +222,7 @@ class Database:
                 cursor = my_database.cursor()
                 # Get all dates
                 for d in date_list:
-                    date_sql = "select min(temperature) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
+                    date_sql = "select round(min(temperature),2) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
                         d[0], d[0])
                     cursor.execute(date_sql)
                     min_temp.append(cursor.fetchall())
@@ -245,7 +245,7 @@ class Database:
                 cursor = my_database.cursor()
                 # Get all dates
                 for d in date_list:
-                    date_sql = "select max(temperature) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
+                    date_sql = "select round(max(temperature),2) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
                         d[0], d[0])
                     cursor.execute(date_sql)
                     max_temp.append(cursor.fetchall())
@@ -268,7 +268,7 @@ class Database:
                 cursor = my_database.cursor()
                 # Get all dates
                 for d in date_list:
-                    date_sql = "select min(humidity) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
+                    date_sql = "select round(min(humidity),2) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
                         d[0], d[0])
                     cursor.execute(date_sql)
                     min_humid.append(cursor.fetchall())
@@ -291,7 +291,7 @@ class Database:
                 cursor = my_database.cursor()
                 # Get all dates
                 for d in date_list:
-                    date_sql = "select max(humidity) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
+                    date_sql = "select round(max(humidity),2) from data_log where date between '{} 00:00:00' and '{} 23:59:59'".format(
                         d[0], d[0])
                     cursor.execute(date_sql)
                     max_humidity.append(cursor.fetchall())
@@ -354,6 +354,6 @@ class Database:
                 try_list = []
                 try_list.append(ultimate_list[i])
                 pen_list.append(try_list)
-        print(ultimate_list)
-        print(pen_list)
+        # print(ultimate_list)
+        # print(pen_list)
         return pen_list

@@ -1,4 +1,5 @@
 import csv
+import datetime
 from database import Database
 
 
@@ -24,10 +25,13 @@ class Report:
         db = Database()
         with open("detailed_data.csv", "w+") as report:
             writer = csv.writer(report)
-            writer.writerow(["Date", "Avg. Temperature", "Avg. Humidity", "Min Temp", "Max Temp", "Min Humid", "Max Humid"])
+            writer.writerow(
+                ["Date", "Avg. Temp", "Avg. Humid", "Min Temp", "Max Temp", "Min Humid", "Max Humid",
+                 "Generated on"])
             data = list(Report.chunks(db.get_detailed_daily_report(), 7))
             for i in data:
-                writer.writerow([i[0][0].strftime("%Y-%m-%d"), i[1][0], i[2][0], i[3][0], i[4][0], i[5][0], i[6][0]])
+                writer.writerow([i[0][0].strftime("%Y-%m-%d"), i[1][0], i[2][0], i[3][0], i[4][0], i[5][0], i[6][0],
+                                 datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
             report.close()
 
 
