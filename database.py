@@ -6,6 +6,7 @@ from json_parser import Parser
 
 class Database:
     """ All database operations are in here."""
+
     def __init__(self):
         """Enter your own info here"""
         self._database_name = 'iota1'
@@ -47,6 +48,29 @@ class Database:
             if my_database.is_connected():
                 cursor = my_database.cursor()
                 sql = "SELECT * FROM data_log"
+                cursor.execute(sql)
+                result = cursor.fetchall()
+                for row in result:
+                    data.append(row)
+                return data
+        except Error as e:
+            print(e)
+        finally:
+            my_database.close()
+
+    def read_today_data(self):
+        data = []
+        try:
+            my_database = mysql.connector.connect(
+                host=self._host,
+                database=self._database_name,
+                user=self._user,
+                passwd=self._password
+            )
+            if my_database.is_connected():
+                cursor = my_database.cursor()
+                sql = "SELECT * FROM data_log WHERE date between '{} 00:00:00' and '{} 23:59:59'".format(
+                    datetime.datetime.now().date(), datetime.datetime.now().date())
                 cursor.execute(sql)
                 result = cursor.fetchall()
                 for row in result:

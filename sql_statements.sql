@@ -29,3 +29,5 @@ select min(temperature), min(humidity) from data_log where date between '2019-06
 select distinct date(date) from data_log;
 
 select distinct date(date) from data_log order by date(date) desc limit 7;
+
+select date, humidity from data_log where humidity > 60 and date between '2019-06-23 00:00:00' and '2019-06-23 23:59:59';
