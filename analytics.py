@@ -1,6 +1,9 @@
 from matplotlib import pyplot as plt
 import pandas as pd
 from json_parser import Parser
+import numpy as np
+
+
 # import seaborn as sb
 
 class Analytics:
@@ -58,15 +61,39 @@ class Analytics:
         plt.clf()
 
     def seaborn_draw_temperature_report(self):
-        daily_data = pd.read_csv('daily_data')
-        plt.scatter(daily_data.date, daily_data.temperature)
-        plt.show()
+        daily_data = pd.read_csv('daily_report.csv')
+        parser = Parser()
+        frame1 = plt.gca()
+        temperature = daily_data.temperature
+        last_index = daily_data.index[-1]
+        col = np.where(temperature > parser.max_temperature, 'r',
+                       np.where(temperature < parser.min_temperature, 'r', 'g'))
+        plt.scatter(daily_data.date, temperature, c=col, label='_nolegend_')
+        plt.axhline(y=self.parser.max_temperature, c='r', label='Max')
+        plt.axhline(y=self.parser.min_temperature, c='r', label='Min')
+        frame1.axes.get_xaxis().set_ticks([])
+        plt.title('Temperature report {} {} to {}'.format('\n', daily_data.date[0], daily_data.date[last_index]))
+        plt.savefig('seaborn_temperature_daily_report.png')
+        plt.clf()
 
     def seaborn_draw_humidity_report(self):
-        pass
+        daily_data = pd.read_csv('daily_report.csv')
+        parser = Parser()
+        frame1 = plt.gca()
+        humidity = daily_data.humidity
+        last_index = daily_data.index[-1]
+        col = np.where(humidity > parser.max_humidity, 'r', np.where(humidity < parser.min_humidity, 'r', 'g'))
+        plt.scatter(daily_data.date, humidity, c=col, label='_nolegend_')
+        plt.axhline(y=self.parser.max_humidity, c='r', label='Max')
+        plt.axhline(y=self.parser.min_humidity, c='r', label='Min')
+        frame1.axes.get_xaxis().set_ticks([])
+        plt.title('Humidity report {} {} to {}'.format('\n', daily_data.date[0], daily_data.date[last_index]))
+        plt.savefig('seaborn_humid_daily_report.png')
+        plt.clf()
 
 
 analytics = Analytics()
 analytics.matplotlib_draw_humidity_report()
 analytics.matplotlib_draw_temperature_report()
-# analytics.seaborn_draw_temperature_report()
+analytics.seaborn_draw_temperature_report()
+analytics.seaborn_draw_humidity_report()
