@@ -1,5 +1,5 @@
 import datetime
-from sense_hat import SenseHat
+from virtual_sense_hat import VirtualSenseHat
 from database import Database
 from notification import Notification
 from data_checker import Checker
@@ -9,7 +9,7 @@ from temperature_calibrator import Calibrator
 class GreenHouseMonitor:
     """ Main class responsible for executing the program"""
     def __init__(self):
-        self._sense = SenseHat()
+        self._sense = VirtualSenseHat.getSenseHat()
         self._notification = Notification.get_instance()
         self._checker = Checker()
         self._database = Database.get_instance()

@@ -1,6 +1,6 @@
 import bluetooth
 import datetime
-from sense_hat import SenseHat
+from virtual_sense_hat import VirtualSenseHat
 from database import Database
 from data_checker import Checker
 from notification import Notification
@@ -11,7 +11,7 @@ class BlueToothMessenger:
     """ This class is responsible for detecting nearby BlueTooth devices with a predetermined set of MAC addresses.
     And then it will trigger a notification to that device. Rename because of its and conflicts with a package"""
     def __init__(self):
-        self._sense = SenseHat()
+        self._sense = VirtualSenseHat.getSenseHat()
         self._database = Database.get_instance()
         self._checker = Checker()
         self._notification = Notification.get_instance()
