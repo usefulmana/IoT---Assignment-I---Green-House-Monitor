@@ -26,6 +26,7 @@ class VirtualSenseHat:
     def get_humidity(self):
         return self.default_humidity
 
+    @staticmethod
     def show_message(self, text_string,
         scroll_speed = 0.1, text_colour = [255, 255, 255], back_colour = [0, 0, 0]):
         print(text_string)
