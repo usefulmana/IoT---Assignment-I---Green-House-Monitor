@@ -20,6 +20,10 @@ class Scheduler:
         schedule_report = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 createReport.py")
         schedule_report.setall('0 * * * *')
 
+        # Create plots at 23:59
+        schedule_analytics = pi_cron.new(command="cd /home/pi/Desktop/IoT && /usr/bin/python3.5 analytics.py")
+        schedule_analytics.setall('59 23 * * *')
+
         pi_cron.write()
 
 

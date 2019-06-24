@@ -5,9 +5,9 @@ from database import Database
 
 class Report:
     @staticmethod
-    def create_report(data):
+    def create_report(filename, data):
         """ Creating or overwriting the report.csv file """
-        with open("report.csv", "w+") as report:
+        with open(filename, "w+") as report:
             writer = csv.writer(report)
             writer.writerow(["Date", "Status"])
             for d in data:
@@ -21,10 +21,10 @@ class Report:
             yield l[i:i + n]
 
     @staticmethod
-    def create_detailed_report():
+    def create_detailed_report(filename):
         db = Database()
 
-        with open("detailed_data.csv", "w+") as report:
+        with open(filename, "w+") as report:
             writer = csv.writer(report)
             writer.writerow(
                 ["date", "avg_temp", "avg_humid", "min_temp", "max_temp", "min_humid", "max_humid",
@@ -36,9 +36,9 @@ class Report:
             report.close()
 
     @staticmethod
-    def create_daily_report():
+    def create_daily_report(filename):
         db = Database()
-        with open('daily_report.csv', 'w+') as report:
+        with open(filename, 'w+') as report:
             writer = csv.writer(report)
             writer.writerow(["date", "temperature", "humidity"])
             data = db.read_today_data()
@@ -48,6 +48,6 @@ class Report:
 
 
 database = Database()
-Report.create_report(database.read_daily_notification())
-Report.create_detailed_report()
-Report.create_daily_report()
+Report.create_report("report.csv", database.read_daily_notification())
+Report.create_detailed_report("detailed_data.csv")
+Report.create_daily_report('daily_report.csv')
