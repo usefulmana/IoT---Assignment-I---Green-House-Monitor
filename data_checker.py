@@ -7,7 +7,7 @@ class Checker:
     @staticmethod
     def check_temperature(temperature):
         # Get data from parser
-        data = Parser()
+        data = Parser.get_instance()
         # Compare data
         if temperature < data.min_temperature:
             status = 'BAD'
@@ -21,13 +21,13 @@ class Checker:
 
     @staticmethod
     def check_humidity(humidity):
-        data = Parser()
+        data = Parser.get_instance()
         if humidity < data.min_humidity:
             status = 'BAD'
-            report = '{}*% below minimum humidity.'.format(round(data.min_humidity - humidity, 2))
+            report = '{}% below minimum humidity.'.format(round(data.min_humidity - humidity, 2))
             return status + ': ' + report
         if humidity > data.max_humidity:
             status = 'BAD'
-            report = '{}*% above maximum humidity.'.format(round(humidity - data.max_humidity, 2))
+            report = '{}% above maximum humidity.'.format(round(humidity - data.max_humidity, 2))
             return status + ': ' + report
         return 'OK. Current humidity is within range'

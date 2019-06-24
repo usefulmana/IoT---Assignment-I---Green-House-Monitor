@@ -6,14 +6,24 @@ from json_parser import Parser
 
 class Database:
     """ All database operations are in here."""
+    _instance = None
+    @staticmethod
+    def get_instance():
+        if Database._instance is None:
+            Database()
+        return Database._instance
 
     def __init__(self):
-        """Enter your own info here"""
-        self._database_name = 'iota1'
-        self._host = 'localhost'
-        self._user = 'pi'
-        self._password = 'GAtech321'
-        self._today_date = datetime.datetime.today().date()
+        if Database._instance is not None:
+            raise Exception("This is a singleton class")
+        else:
+            """Enter your own info here"""
+            Database._instance = self
+            self._database_name = 'iota1'
+            self._host = 'localhost'
+            self._user = 'pi'
+            self._password = 'GAtech321'
+            self._today_date = datetime.datetime.today().date()
 
     def save_data(self, date, temperature, humidity):
         """Save data to database"""
@@ -327,8 +337,8 @@ class Database:
 
     @staticmethod
     def get_detailed_daily_report():
-        db = Database()
-        parser = Parser()
+        db = Database.get_instance()
+        parser = Parser.get_instance()
         date_tuple = db.get_all_dates_from_database(parser.number_of_days_in_report)
         avg_temp = db.get_daily_average_temp(date_tuple)
         avg_humid = db.get_daily_average_humid(date_tuple)

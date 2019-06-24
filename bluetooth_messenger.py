@@ -12,9 +12,9 @@ class BlueToothMessenger:
     And then it will trigger a notification to that device. Rename because of its and conflicts with a package"""
     def __init__(self):
         self._sense = SenseHat()
-        self._database = Database()
+        self._database = Database.get_instance()
         self._checker = Checker()
-        self._notification = Notification()
+        self._notification = Notification.get_instance()
         self._MY_PHONE_MAC_ADDRESS = '48:60:5F:CA:EC:6F'
         self._LAPTOP_MAC_ADDRESS = '00:28:F8:37:FA:F9'
 
@@ -33,7 +33,7 @@ class BlueToothMessenger:
         if mac_address is not None:
             # Get data from sense HAT
             temperature = round(self._sense.get_temperature(), 1)
-            calibrated_temp = Calibrator.calibrate_temperature(temperature)
+            calibrated_temp = Calibrator.get_instance().calibrate_temperature(temperature)
             humidity = round(self._sense.get_humidity(), 1)
 
             # Check if data is within range

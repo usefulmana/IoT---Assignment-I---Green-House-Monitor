@@ -16,14 +16,13 @@ class Report:
 
     @staticmethod
     def chunks(l, n):
-        """Yield successive n-sized chunks from l."""
+        """Split an array into even small arrays. Generator methods."""
         for i in range(0, len(l), n):
             yield l[i:i + n]
 
     @staticmethod
     def create_detailed_report(filename):
-        db = Database()
-
+        db = Database.get_instance()
         with open(filename, "w+") as report:
             writer = csv.writer(report)
             writer.writerow(
@@ -37,7 +36,7 @@ class Report:
 
     @staticmethod
     def create_daily_report(filename):
-        db = Database()
+        db = Database.get_instance()
         with open(filename, 'w+') as report:
             writer = csv.writer(report)
             writer.writerow(["date", "temperature", "humidity"])

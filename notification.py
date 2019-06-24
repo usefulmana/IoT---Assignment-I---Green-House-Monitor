@@ -3,8 +3,20 @@ from pushbullet.errors import PushbulletError, InvalidKeyError, PushError
 
 
 class Notification:
+
+    _instance = None
+    @staticmethod
+    def get_instance():
+        if Notification._instance is None:
+            Notification()
+        return Notification._instance
+
     def __init__(self):
-        self._API_KEY = 'o.IcOB60dNl8mrBFHVI0AJtx68ZmSTCJIO'
+        if Notification._instance is not None:
+            raise Exception("This is a singleton class")
+        else:
+            Notification._instance = self
+            self._API_KEY = 'o.IcOB60dNl8mrBFHVI0AJtx68ZmSTCJIO'
 
     def push_notification(self, title, body):
         try:

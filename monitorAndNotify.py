@@ -10,9 +10,9 @@ class GreenHouseMonitor:
     """ Main class responsible for executing the program"""
     def __init__(self):
         self._sense = SenseHat()
-        self._notification = Notification()
+        self._notification = Notification.get_instance()
         self._checker = Checker()
-        self._database = Database()
+        self._database = Database.get_instance()
 
     def main(self):
         status_number = self._database.check_notification_status()
@@ -21,7 +21,7 @@ class GreenHouseMonitor:
 
         record_time = datetime.datetime.now()
         temperature = round(self._sense.get_temperature(), 2)
-        calibrated_temp = Calibrator.calibrate_temperature(temperature)
+        calibrated_temp = Calibrator.get_instance().calibrate_temperature(temperature)
         humidity = round(self._sense.get_humidity(), 2)
         self._database.save_data(record_time, calibrated_temp, humidity)
 

@@ -3,6 +3,19 @@ import os
 
 class Calibrator:
     """This class will approximate the real room temperature from the sense hat data"""
+    _instance = None
+    @staticmethod
+    def get_instance():
+        if Calibrator._instance is None:
+            Calibrator()
+        return Calibrator._instance
+
+    def __init__(self):
+        if Calibrator._instance is not None:
+            raise Exception("This class is a singleton")
+        else:
+            Calibrator._instance = self
+
     @staticmethod
     def get_cpu_temp():
         """Getting Pi's CPU Temp"""

@@ -4,9 +4,10 @@ from json_parser import Parser
 import numpy as np
 import seaborn as sns
 
+
 class Analytics:
     def __init__(self):
-        self.parser = Parser()
+        self.parser = Parser.get_instance()
 
     def matplotlib_draw_temperature_report(self):
         weekly_data = pd.read_csv('detailed_data.csv')
@@ -60,12 +61,11 @@ class Analytics:
 
     def seaborn_draw_temperature_report(self):
         daily_data = pd.read_csv('daily_report.csv')
-        parser = Parser()
         frame1 = plt.gca()
         temperature = daily_data.temperature
         last_index = daily_data.index[-1]
-        col = np.where(temperature > parser.max_temperature, 'r',
-                       np.where(temperature < parser.min_temperature, 'r', 'g'))
+        col = np.where(temperature > self.parser.max_temperature, 'r',
+                       np.where(temperature < self.parser.min_temperature, 'r', 'g'))
         plt.scatter(daily_data.date, temperature, c=col, label='_nolegend_')
         plt.axhline(y=self.parser.max_temperature, c='r', label='Max')
         plt.axhline(y=self.parser.min_temperature, c='r', label='Min')
@@ -76,11 +76,11 @@ class Analytics:
 
     def seaborn_draw_humidity_report(self):
         daily_data = pd.read_csv('daily_report.csv')
-        parser = Parser()
         frame1 = plt.gca()
         humidity = daily_data.humidity
         last_index = daily_data.index[-1]
-        col = np.where(humidity > parser.max_humidity, 'r', np.where(humidity < parser.min_humidity, 'r', 'g'))
+        col = np.where(humidity > self.parser.max_humidity, 'r',
+                       np.where(humidity < self.parser.min_humidity, 'r', 'g'))
         plt.scatter(daily_data.date, humidity, c=col, label='_nolegend_')
         plt.axhline(y=self.parser.max_humidity, c='r', label='Max')
         plt.axhline(y=self.parser.min_humidity, c='r', label='Min')
@@ -108,7 +108,6 @@ class Analytics:
         plt.show()
         # plot.savefig('test.png')
         plt.clf()
-
 
 
 analytics = Analytics()
