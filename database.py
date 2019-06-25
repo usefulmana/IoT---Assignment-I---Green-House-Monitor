@@ -19,10 +19,11 @@ class Database:
         else:
             """Enter your own info here"""
             Database._instance = self
-            self._database_name = 'iota1'
-            self._host = 'localhost'
-            self._user = 'pi'
-            self._password = 'GAtech321'
+            self.parser = Parser.get_instance()
+            self._database_name = self.parser.database_name
+            self._host = self.parser.host
+            self._user = self.parser.user
+            self._password = self.parser.password
             self._today_date = datetime.datetime.today().date()
 
     def save_data(self, date, temperature, humidity):

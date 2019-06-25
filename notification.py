@@ -1,6 +1,6 @@
 from pushbullet import PushBullet
 from pushbullet.errors import PushbulletError, InvalidKeyError, PushError
-
+from json_parser import Parser
 
 class Notification:
     """This class stores the method to send notification via PushBullet API"""
@@ -17,7 +17,7 @@ class Notification:
             raise Exception("This is a singleton class")
         else:
             Notification._instance = self
-            self._API_KEY = 'o.IcOB60dNl8mrBFHVI0AJtx68ZmSTCJIO'
+            self._API_KEY = Parser.get_instance().api_key
 
     def push_notification(self, title, body):
         try:

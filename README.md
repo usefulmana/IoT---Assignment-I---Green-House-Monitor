@@ -16,6 +16,7 @@
     - mysql-connector
     - matplotlib
     - pushbullet.py
+    - seaborn
 
 #### Setting up:
 In order to run this program in your RPi, you will need to set up a local MySQL server. Follow the steps below:
@@ -47,6 +48,15 @@ In order to run this program in your RPi, you will need to set up a local MySQL 
 - Fill the appropriate information in database.py
 - To receive notification, get your API key from [Pushbullet](https://www.pushbullet.com/) and fill in the appropriate 
 info in notification.py
+- Go to your local folder, and create a setup.json file that follows the below format and fill the missing information:
+    ````
+    {
+  "database_name": "your database name",
+  "host": "your_host(usually localhost)",
+  "user": "your username",
+  "password": "your password",
+  "API_KEY": "pushbullet api key"}
+    ````
 
 To run the program, simply run scheduler.py which will run the programs in a predetermined schedule.
 Or you can just run each file individually. Three executable files are:
