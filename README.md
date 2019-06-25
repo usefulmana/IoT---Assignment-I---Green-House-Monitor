@@ -61,14 +61,27 @@ info in notification.py
   "password": "your password",
   "API_KEY": "pushbullet api key"}
     ````
+### Bluetooth
+To use the notification feature via BlueTooth, you must own a BlueTooth-capable device (your smartphone or laptop).
+- You will need to pair your device with RPi
+- Install the following packages to your RPi:
+    ````
+    sudo apt-get install bluetooth bluez blueman bluez-tools
+    ````
+- Install the Pushbullet application/plugin on your devices
+- Turn on Bluetooth and make your device discoverable when you want to receive notifications
+
+### Running the program
 
 To run the program, simply run scheduler.py which will run the programs in a predetermined schedule.
-Or you can just run each file individually. Three executable files are:
+Or you can just run each file individually. The executable files are:
 - monitorAndNotify.py: will log temperature and humidity into the mysql database and send out notification if any
 parameter exceeds the predetermined range.
 
 - createReport.py: will create two reports. One with status of each day. Another one with a detailed report that 
 includes the information such as: average and min/max temperature/humidity.
 
-- bluetooth_messenger.py: will scan any device that has a preset MAC address and send out notification regarding current
-temperature and humidity.
+- bluetooth_messenger.py: will scan for BlueTooth devices in the nearby area and detect if any device matches with paired
+devices' MAC addresses. Should a match occur, a notification will be sent out via Pushbullet.
+
+- analytics.py: this script will create an array of plots that displaying any relevant data collected from RPi.
