@@ -61,5 +61,6 @@ class BlueToothMessenger:
                                                         humidity), 'OK')
 
 
-messenger = BlueToothMessenger()
-messenger.send_message()
+if __name__ == '__main__':
+    messenger = BlueToothMessenger()
+    messenger.send_message()

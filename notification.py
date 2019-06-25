@@ -3,8 +3,9 @@ from pushbullet.errors import PushbulletError, InvalidKeyError, PushError
 
 
 class Notification:
-
+    """This class stores the method to send notification via PushBullet API"""
     _instance = None
+    # Only one instance of this class should exist
     @staticmethod
     def get_instance():
         if Notification._instance is None:

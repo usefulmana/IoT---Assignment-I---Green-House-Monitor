@@ -69,6 +69,7 @@ class Database:
             my_database.close()
 
     def read_today_data(self):
+        """Read data from data base"""
         data = []
         try:
             my_database = mysql.connector.connect(

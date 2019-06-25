@@ -5,6 +5,7 @@ class Parser:
 
     """This class will parse a json config file save its content as properties."""
     _instance = None
+    # Only one instance of this class should exist
     @staticmethod
     def get_instance():
         if Parser._instance is None:

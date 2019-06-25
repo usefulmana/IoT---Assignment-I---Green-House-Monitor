@@ -4,6 +4,7 @@ from database import Database
 
 
 class Report:
+    """This class is responsible for creating daily, weekly and status reports"""
     @staticmethod
     def create_report(filename, data):
         """ Creating or overwriting the report.csv file """
@@ -22,6 +23,7 @@ class Report:
 
     @staticmethod
     def create_detailed_report(filename):
+        """This report will be used for task 2"""
         db = Database.get_instance()
         with open(filename, "w+") as report:
             writer = csv.writer(report)
@@ -46,7 +48,8 @@ class Report:
             report.close()
 
 
-database = Database()
-Report.create_report("report.csv", database.read_daily_notification())
-Report.create_detailed_report("detailed_data.csv")
-Report.create_daily_report('daily_report.csv')
+if __name__ == '__main__':
+    database = Database.get_instance()
+    Report.create_report("report.csv", database.read_daily_notification())
+    Report.create_detailed_report("detailed_data.csv")
+    Report.create_daily_report('daily_report.csv')

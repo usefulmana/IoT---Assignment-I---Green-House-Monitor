@@ -27,5 +27,6 @@ class Scheduler:
         pi_cron.write()
 
 
-Scheduler.run_script()
+if __name__ == '__main__':
+    Scheduler.run_script()
 
