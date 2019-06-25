@@ -31,7 +31,7 @@ class BluetoothScanner:
         humidity = sense.get_humidity()
 
         # Create message to be sent
-        message = 'Temperature: {} - Humidity: {}'.format(temperature, humidity)
+        message = 'Temperature: {} - Humidity: {}\r\n'.format(temperature, humidity)
         return message
 
     # ===================================================================
@@ -41,7 +41,7 @@ class BluetoothScanner:
     def send_message(self):
         self._socket.connect((self._paired_address, self._port))
         messsage = self.get_sensors_message()
-        print('Sending message:', messsage)
+        print('Sending message: {}'.format(messsage))
         self._socket.send(messsage.encode())
 
 
