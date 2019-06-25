@@ -1,71 +1,69 @@
-import csv
-import datetime
-from database import Database
-import time
+import pandas as pd
+import sqlite3
+import json
 
 
 class Report:
-    """This class is responsible for creating daily, weekly and status reports"""
-    @staticmethod
-    def create_report(filename, data):
-        """ Creating or overwriting the report.csv file """
-        try:
-            # The w+ tag will create the said file if it does not exist
-            with open(filename, "w+") as report:
-                writer = csv.writer(report)
-                writer.writerow(["Date", "Status"])
-                for d in data:
-                    writer.writerow([d[1].strftime("%Y-%m-%d"), d[2]])
-        except Exception as e:
-            print(e)
-        finally:
-            report.close()
+    def __init__(self):
+        self._config = self.read_config()
+
+    # ===============================================================================
+    # Read config from JSON file
+    # ===============================================================================
 
     @staticmethod
-    def chunks(l, n):
-        """Split an array into even small arrays. Generator methods."""
-        for i in range(0, len(l), n):
-            yield l[i:i + n]
+    def read_config():
+        with open('config.json') as config_file:
+            config = json.load(config_file)
 
-    @staticmethod
-    def create_detailed_report(filename):
-        """This report will be used for task 2"""
-        try:
-            db = Database.get_instance()
-            with open(filename, "w+") as report:
-                writer = csv.writer(report)
-                writer.writerow(
-                    ["date", "avg_temp", "avg_humid", "min_temp", "max_temp", "min_humid", "max_humid",
-                     "created_on"])
-                data = list(Report.chunks(db.get_detailed_daily_report(), 7))
-                for i in data:
-                    writer.writerow([i[0][0].strftime("%Y-%m-%d"), i[1][0], i[2][0], i[3][0], i[4][0], i[5][0], i[6][0],
-                                     datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")])
-        except Exception as e:
-            print(e)
-        finally:
-            report.close()
+        return config
 
-    @staticmethod
-    def create_daily_report(filename):
-        """Created a daily report that contains all information regarding temperature and humidity in a day"""
-        try:
-            db = Database.get_instance()
-            with open(filename, 'w+') as report:
-                writer = csv.writer(report)
-                writer.writerow(["date", "temperature", "humidity"])
-                data = db.read_today_data()
-                for i in data:
-                    writer.writerow([i[1], i[2], i[3]])
-        except Exception as e:
-            print(e)
-        finally:
-            report.close()
+    # ===============================================================================
+    # Get status of current day
+    # ===============================================================================
+
+    def get_day_status(self, day_record):
+        # Extract number of temperature values out of range
+        upper_temp = day_record[day_record['temperature'] > self._config['max_temperature']].shape[0]
+        lower_temp = day_record[day_record['temperature'] < self._config['min_temperature']].shape[0]
+
+        # Extract number of humidity values out of range
+        upper_hum = day_record[day_record['humidity'] > self._config['max_humidity']].shape[0]
+        lower_hum = day_record[day_record['humidity'] < self._config['min_humidity']].shape[0]
+
+        if sum([upper_temp, lower_temp, upper_hum, lower_hum]) == 0:
+            return 'OK'
+        else:
+            high_temp = 'BAD: {} above max temperature'.format(upper_temp)
+            low_temp = '{} below min temperature'.format(lower_temp)
+            high_hum = '{} above max humidity'.format(upper_hum)
+            low_hum = '{} below min humidity'.format(lower_hum)
+            return ' - '.join([high_temp, low_temp, high_hum, low_hum])
+
+    # ===============================================================================
+    # Get data from database and generate a CSV report file
+    # ===============================================================================
+
+    def generate_report(self):
+        # Fetch data from database
+        db = sqlite3.connect('greenhouse.db')
+        db_contents = pd.read_sql_query('select * from GREENHOUSE_DATA', db)
+
+        # Initialise report dataframe
+        report = pd.DataFrame(columns=['Date', 'Status'])
+
+        # Only keep date, drop time, get set of unique dates
+        db_contents['time_stamp'] = db_contents['time_stamp'].apply(lambda x: x.split()[0])
+        dates = list(set(db_contents['time_stamp']))
+
+        for day in dates:
+            # Get data of the considered day
+            day_record = db_contents[db_contents['time_stamp'] == day]
+            status = self.get_day_status(day_record=day_record)
+            report = report.append({'Date': day, 'Status': status}, ignore_index=True)
+
+        report.to_csv('report.csv', index=False)
 
 
-if __name__ == '__main__':
-    time.sleep(10)
-    database = Database.get_instance()
-    Report.create_report("report.csv", database.read_daily_notification())
-    Report.create_detailed_report("detailed_data.csv")
-    Report.create_daily_report('daily_report.csv')
+report = Report()
+report.generate_report()
