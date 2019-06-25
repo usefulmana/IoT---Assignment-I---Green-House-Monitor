@@ -6,7 +6,8 @@
 
 **Github: [Link](https://github.com/usefulmana/IoT---Assignment-I---Green-House-Monitor)** <br> 
 
-**Project Description:** 
+**Project Description:** A green house monitor that records temperature and humidity and notify users if measurements
+are within range or not. Additionally, this program will also generate relevant reports and charts to inform users.
 
 #### Required packages:
     - python version >= 3.5.3
@@ -17,7 +18,10 @@
     - matplotlib
     - pushbullet.py
     - seaborn
-
+To install all dependencies:
+````
+pip install -r requirements.txt
+````
 #### Setting up:
 In order to run this program in your RPi, you will need to set up a local MySQL server. Follow the steps below:
 - SSH into your machine, and install mysql server and client:
