@@ -13,23 +13,26 @@ class Analytics:
         self.parser = Parser.get_instance()
 
     def matplotlib_draw_temperature_report(self):
+        # Get Data from csv file
         weekly_data = pd.read_csv('detailed_data.csv')
         avg_temp = weekly_data.avg_temp
         min_temp = weekly_data.min_temp
         max_temp = weekly_data.max_temp
 
-        # fig, ax1 = plt.subplots()
-        # ax2 = ax1.twinx()
+        # Use style bmh
         plt.style.use('bmh')
+
+        # Draw a scatter plot
         plt.scatter(weekly_data.date, avg_temp, c='g', label='Avg Temp')
+        # Threshold lines
         plt.axhline(y=self.parser.max_temperature, c='r', label='Max')
         plt.axhline(y=self.parser.min_temperature, c='b', label='Min')
+        # Draw a line to connect the dots
         plt.plot(weekly_data.date, avg_temp, 'g-', label='_nolegend_')
         err = [avg_temp - min_temp, max_temp - avg_temp]
+        # Asymmetrical error bar
         plt.errorbar(weekly_data.date, avg_temp, yerr=err, fmt='go', label='_nolegend_')
 
-        # ax2.scatter(weekly_data.date, avg_humid)
-        # ax2.plot(weekly_data.date, avg_humid, label='Humidity')
         axes = plt.gca()
         axes.set_ylim([10, 40])
         plt.title('Temperature Report')
@@ -109,7 +112,6 @@ class Analytics:
 
         sns.distplot(l, kde=True, rug=False)
         plt.show()
-        # plot.savefig('test.png')
         plt.clf()
 
 

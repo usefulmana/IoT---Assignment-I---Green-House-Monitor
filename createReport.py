@@ -3,6 +3,7 @@ import datetime
 from database import Database
 import time
 
+
 class Report:
     """This class is responsible for creating daily, weekly and status reports"""
     @staticmethod
