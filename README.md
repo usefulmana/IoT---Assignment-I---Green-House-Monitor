@@ -10,7 +10,7 @@
 are within range or not. Additionally, this program will also generate relevant reports and charts to inform users.
 
 #### Required packages:
-    - python version >= 3.5.3
+    - python version = 3.5.3
     - sense-hat
     - pybluez
     - python-crontab
@@ -19,8 +19,13 @@ are within range or not. Additionally, this program will also generate relevant 
     - pushbullet.py
     - seaborn
 To install all dependencies:
+- Using Pip:
 ````
-pip install -r requirements.txt
+pip install -r requirements.yml
+````
+- Using Conda (require Anaconda3):
+````
+conda env create -f requirements.yml
 ````
 #### Setting up:
 In order to run this program in your RPi, you will need to set up a local MySQL server. Follow the steps below:
@@ -49,9 +54,23 @@ In order to run this program in your RPi, you will need to set up a local MySQL 
     ````
     show grants for 'your_user_name'@localhost;
     ````
-- Fill the appropriate information in database.py
-- To receive notification, get your API key from [Pushbullet](https://www.pushbullet.com/) and fill in the appropriate 
-info in notification.py
+- To use the newly created database:
+    ````
+    use database_name;
+    ````
+- Execute the two "Create Table" commands from sql_statements.sql:
+    ````
+    create table data_log (
+    id int not null auto_increment primary key,
+    date datetime not null,
+    temperature float not null,
+    humidity float not null);
+    
+    create table daily_notification(
+    id int not null  auto_increment primary key,
+    record_date date unique not null,
+    status varchar(255) not null);
+    ````
 - Go to your local folder, and create a setup.json file that follows the below format and fill the missing information:
     ````
     {
@@ -61,6 +80,7 @@ info in notification.py
   "password": "your password",
   "API_KEY": "pushbullet api key"}
     ````
+- Pushbullet API KEY can be obtained  [here](https://www.pushbullet.com/).
 ### Bluetooth
 To use the notification feature via BlueTooth, you must own a BlueTooth-capable device (your smartphone or laptop).
 - You will need to pair your device with RPi
@@ -69,7 +89,7 @@ To use the notification feature via BlueTooth, you must own a BlueTooth-capable 
     sudo apt-get install bluetooth bluez blueman bluez-tools
     ````
 - Install the Pushbullet application/plugin on your devices
-- Turn on Bluetooth and make your device discoverable when you want to receive notifications
+- Turn on Bluetooth and make sure your device is discoverable when you want to receive notifications
 
 ### Running the program
 
@@ -85,3 +105,9 @@ includes the information such as: average and min/max temperature/humidity.
 devices' MAC addresses. Should a match occur, a notification will be sent out via Pushbullet.
 
 - analytics.py: this script will create an array of plots that displaying any relevant data collected from RPi.
+
+### Changing Parameters
+
+Inside the file config.json, several parameters can be changed. Your can raise and lower temperature and humidity limits.
+Additionally, the parameter "number_of_days_in_report" can be changed to any number. This parameter will affect how 
+many days worth of data to be included in the detailed_report.csv file.

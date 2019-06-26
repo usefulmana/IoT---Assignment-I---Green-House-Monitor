@@ -52,7 +52,7 @@ class Parser:
 
     @property
     def number_of_days_in_report(self):
-        return self._NUMBER_OF_DAYS_IN_REPORT
+        return int(abs(self._NUMBER_OF_DAYS_IN_REPORT))
 
     @property
     def database_name(self):
