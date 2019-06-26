@@ -2,7 +2,7 @@
 
 **Group**: 3.14
 
-**Members:** Nguyen Le Bao Anh (s3616128) - 
+**Members:** Nguyen Le Bao Anh (s3616128) - Tran Thi Hong Phuong (s3623386)
 
 **Github: [Link](https://github.com/usefulmana/IoT---Assignment-I---Green-House-Monitor)** <br> 
 
@@ -95,19 +95,19 @@ To use the notification feature via BlueTooth, you must own a BlueTooth-capable 
 
 To run the program, simply run scheduler.py which will run the programs in a predetermined schedule.
 Or you can just run each file individually. The executable files are:
-- monitorAndNotify.py: will log temperature and humidity into the mysql database and send out notification if any
+- `monitorAndNotify.py`: will log temperature and humidity into the mysql database and send out notification if any
 parameter exceeds the predetermined range.
 
-- createReport.py: will create two reports. One with status of each day. Another one with a detailed report that 
+- `createReport.py`: will create two reports. One with status of each day. Another one with a detailed report that 
 includes the information such as: average and min/max temperature/humidity.
 
-- bluetooth_messenger.py: will scan for BlueTooth devices in the nearby area and detect if any device matches with paired
+- `bluetooth_messenger.py`: will scan for BlueTooth devices in the nearby area and detect if any device matches with paired
 devices' MAC addresses. Should a match occur, a notification will be sent out via Pushbullet.
 
-- analytics.py: this script will create an array of plots that displaying any relevant data collected from RPi.
+- `analytics.py`: this script will create an array of plots that displaying any relevant data collected from RPi.
 
 ### Changing Parameters
 
-Inside the file config.json, several parameters can be changed. Your can raise and lower temperature and humidity limits.
-Additionally, the parameter "number_of_days_in_report" can be changed to any number. This parameter will affect how 
-many days worth of data to be included in the detailed_report.csv file.
+Inside the file `config.json`, several parameters can be changed. Your can raise and lower temperature and humidity limits.
+Additionally, the parameter `number_of_days_in_report` can be changed to any number. This parameter will affect how 
+many days worth of data to be included in the `detailed_report.csv` file.
