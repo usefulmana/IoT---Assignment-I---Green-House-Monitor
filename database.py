@@ -37,10 +37,16 @@ class Database:
             )
             if my_database.is_connected():
                 cursor = my_database.cursor()
-                sql = "INSERT INTO data_log (date, temperature, humidity) values (%s,%s,%s)"
-                val = (date, temperature, humidity)
-                cursor.execute(sql, val)
-                my_database.commit()
+                # 120 and -40 are max and min temperatures that Sense HAT can detect
+                if temperature > 120 or temperature < -40:
+                    raise Exception("Temperature cannot be lower than -40C, or higher 120C")
+                elif humidity > 100 or humidity < 0:
+                    raise Exception("Humidity cannot be lower than 0%, or higher than 100%")
+                else:
+                    sql = "INSERT INTO data_log (date, temperature, humidity) values (%s,%s,%s)"
+                    val = (date, temperature, humidity)
+                    cursor.execute(sql, val)
+                    my_database.commit()
         except Error as e:
             print(e)
         finally:
