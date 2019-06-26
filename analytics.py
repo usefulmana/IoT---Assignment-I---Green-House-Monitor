@@ -2,8 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import sqlite3
-
-from createReport import Report
+import json
 
 
 class DataVisualiser:
@@ -11,7 +10,13 @@ class DataVisualiser:
         # self._db = sqlite3.connect('greenhouse.db')
         # self._df = pd.read_sql_query('select * from GREENHOUSE_DATA', self._db)
         self._df = pd.read_csv('daily_report.csv')
-        self._config = Report.read_config()
+
+        with open('config.json') as config_file:
+            self._config = json.load(config_file)
+
+    # ==================================================================================
+    # Visualisation with Matplotlib
+    # ==================================================================================
 
     def plot_pyplot(self):
         # Create figure with 2 subplots
@@ -27,20 +32,22 @@ class DataVisualiser:
         ax_hum.plot(self._df['humidity'], color='blue')
         ax_hum.set_title('Humidity')
         ax_hum.set_ylabel('%')
-        self.draw_constant_line(ax=ax_temp, mode='humidity')
+        self.draw_constant_line(ax=ax_hum, mode='humidity')
 
         # Tight layout to avoid overlaps
         plt.tight_layout()
         fig.suptitle('Data Visualisation with Matplotlib', y=1.12)
-        plt.legend()
+        # Save figure as PNG image file
+        plt.savefig('visualise_matplotlib.png')
         plt.show()
 
     def draw_constant_line(self, ax, mode):
-        ax.axhline(y=self._config['max_{}'.format(mode)], color='yellow',
+        ax.axhline(y=self._config['max_{}'.format(mode)], color='green', linewidth=1,
                    linestyle='dashed', label='Upper threshold')
-        ax.axhline(y=self._config['min_{}'.format(mode)], color='yellow',
+        ax.axhline(y=self._config['min_{}'.format(mode)], color='green', linewidth=1,
                    linestyle='dashed', label='Lower threshold')
-
+        ax.legend()
+        ax.get_xaxis().set_visible(False)
 
 
 data_visualiser = DataVisualiser()
