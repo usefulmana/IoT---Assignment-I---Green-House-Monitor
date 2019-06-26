@@ -44,11 +44,12 @@ class BlueToothMessenger:
         return mac_addresses
 
     def send_message(self):
-        mac_address = BlueToothMessenger.get_instance().get_list_of_paired_devices()
+        paired_devices_mac_address = BlueToothMessenger.get_instance().get_list_of_paired_devices()
+        mac_address = None
         nearby_devices = bluetooth.discover_devices(duration=8)
         # Check if the paired device has its BlueTooth enabled
         for address in nearby_devices:
-            if address in mac_address:
+            if address in paired_devices_mac_address:
                 mac_address = address
                 device_name = bluetooth.lookup_name(mac_address, timeout=8)
                 print("Found {} with MAC address: {}".format(device_name, mac_address))
