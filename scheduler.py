@@ -27,7 +27,7 @@ class Scheduler:
         # Create plots at 23:59
         schedule_analytics = pi_cron.new(
             command="cd /home/pi/Desktop/IoT && /home/pi/miniconda3/envs/venv/bin/python3.5 analytics.py")
-        schedule_analytics.setall('59 23 * * *')
+        schedule_analytics.setall('23 59 * * *')
 
         pi_cron.write()
 

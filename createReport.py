@@ -1,7 +1,7 @@
 import csv
 import datetime
 from database import Database
-
+import time
 
 class Report:
     """This class is responsible for creating daily, weekly and status reports"""
@@ -49,6 +49,7 @@ class Report:
 
 
 if __name__ == '__main__':
+    time.sleep(10)
     database = Database.get_instance()
     Report.create_report("report.csv", database.read_daily_notification())
     Report.create_detailed_report("detailed_data.csv")

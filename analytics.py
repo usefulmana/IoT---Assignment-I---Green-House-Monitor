@@ -1,8 +1,11 @@
+import matplotlib
+matplotlib.use('Agg')
 from matplotlib import pyplot as plt
 import pandas as pd
 from json_parser import Parser
 import numpy as np
 import seaborn as sns
+import time
 
 
 class Analytics:
@@ -110,9 +113,11 @@ class Analytics:
         plt.clf()
 
 
-analytics = Analytics()
-analytics.matplotlib_draw_humidity_report()
-analytics.matplotlib_draw_temperature_report()
-analytics.seaborn_draw_temperature_report()
-analytics.seaborn_draw_humidity_report()
+if __name__ == '__main__':
+    time.sleep(10)
+    analytics = Analytics()
+    analytics.matplotlib_draw_humidity_report()
+    analytics.matplotlib_draw_temperature_report()
+    analytics.seaborn_draw_temperature_report()
+    analytics.seaborn_draw_humidity_report()
 # analytics.seaborn_test()

@@ -1,5 +1,6 @@
 import bluetooth
 import datetime
+import time
 from virtual_sense_hat import VirtualSenseHat
 from database import Database
 from data_checker import Checker
@@ -87,5 +88,6 @@ class BlueToothMessenger:
 
 
 if __name__ == '__main__':
+    time.sleep(10)
     messenger = BlueToothMessenger.get_instance()
     messenger.send_message()
