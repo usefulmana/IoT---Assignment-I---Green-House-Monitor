@@ -89,6 +89,7 @@ class DataVisualiser:
         ax.get_xaxis().set_visible(False)
 
 
-data_visualiser = DataVisualiser()
-data_visualiser.visualise_report(using_plt=True)
-data_visualiser.visualise_report(using_plt=False)
+if __name__ == '__main__':
+    data_visualiser = DataVisualiser()
+    data_visualiser.visualise_report(using_plt=True)
+    data_visualiser.visualise_report(using_plt=False)
