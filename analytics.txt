@@ -1,0 +1,45 @@
+# ================================================================
+# DATA GRAPH
+# ================================================================
+
+The retrieved data records the change in temperature/humidity
+over a period of time, which shall be best presented with a
+line chart.
+
+# ================================================================
+# DATA TO BE PRESENTED
+# ================================================================
+
+The graph shall plot the record of temperature/humidity over the
+desired period of time, in this case the record saved in the
+pre-generated daily_report.csv file. Moreover, minimum and
+maximum values for each condition are also plotted to visually
+demonstrate if there are any data points falling out of range.
+
+# ================================================================
+# LIBRARIES
+# ================================================================
+
+The chosen libraries for this analytics task are the two most
+popular Python visualisation libraries: Matplotlib and Seaborn.
+
+# MATPLOTLIB
+# ----------------
+
+Matplotlib is the oldest as well as the most widely used Python
+data visualisation library. It is a low-level library that acts
+the base for many higher level interfacing visualisation libraries.
+The major drawback of Matplotlib is its limited offers in terms
+of colors and styling.
+
+
+# SEABORN
+# ----------------
+
+Seaborn is one library built on top of Matplotlib but offers
+almost everything that its predecessor may fail to. In most cases,
+Seaborn would require fewer lines of code to generate a plot.
+It also provides a wide range of configuration freedom in graph
+themes, styles and colors. The work flow of Seaborn is pretty
+much similar to that of Matplotlib, but with more thorough tweaks,
+it can produce publication-quality graphs quickly and easily.
