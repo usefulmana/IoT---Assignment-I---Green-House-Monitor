@@ -52,12 +52,12 @@ class DataVisualiser:
         @ax_hum: Subplot object for humidity plot
         """
         # Red line chart for temperature
-        ax_temp.plot(self._df['temperature'], color='red', label='Recorded temperature')
+        ax_temp.plot(self._df['temperature'], color='red', label='Temperature')
         ax_temp.set_ylabel('Degree C')
         self.draw_constant_line(ax=ax_temp, mode='temperature')
 
         # Blue line chart for humidity
-        ax_hum.plot(self._df['humidity'], color='blue')
+        ax_hum.plot(self._df['humidity'], color='blue', label='Humidity')
         ax_hum.set_ylabel('%')
         self.draw_constant_line(ax=ax_hum, mode='humidity')
 
@@ -106,7 +106,7 @@ class DataVisualiser:
         # Blue line chart for humidity
         with sns.color_palette('GnBu_d'):
             sns.lineplot(data=self._df[['humidity', 'min_hum', 'max_hum']], ax=ax_hum)
-            ax_hum.legend(['Temperature', 'Upper threshold', 'Lower threshold'])
+            ax_hum.legend(['Humidity', 'Upper threshold', 'Lower threshold'])
             ax_hum.set_ylabel('%')
 
         # Set figure's title
