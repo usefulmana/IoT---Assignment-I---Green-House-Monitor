@@ -19,12 +19,12 @@ class Scheduler:
             command="cd /home/pi/Desktop/IoT && /home/pi/miniconda3/envs/venv/bin/python3.5 bluetooth_messenger.py")
         schedule_bluetooth.minute.every(5)
 
-        # Schedule to create reports every hour
+        # Schedule to create reports at 23:55 every day
         schedule_report = pi_cron.new(
             command="cd /home/pi/Desktop/IoT && /home/pi/miniconda3/envs/venv/bin/python3.5 createReport.py")
-        schedule_report.setall('0 * * * *')
+        schedule_report.setall('55 23 * * *')
 
-        # Create plots at 23:59
+        # Create plots at 23:59 every day
         schedule_analytics = pi_cron.new(
             command="cd /home/pi/Desktop/IoT && /home/pi/miniconda3/envs/venv/bin/python3.5 analytics.py")
         schedule_analytics.setall('59 23 * * *')
