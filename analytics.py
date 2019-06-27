@@ -7,6 +7,8 @@ import json
 class DataVisualiser:
     def __init__(self):
         self._df = pd.read_csv('daily_report.csv')
+        self._start_date = self._df.loc[0, 'date']
+        self._end_date = self._df.loc[self._df.shape[0] - 1, 'date']
 
         with open('config.json') as config_file:
             self._config = json.load(config_file)
@@ -21,6 +23,7 @@ class DataVisualiser:
         # Using Seaborn style if specified
         if not using_plt:
             sns.set()
+            sns.set_palette('husl')
 
         # Create figure with 2 subplots
         fig, (ax_temp, ax_hum) = plt.subplots(1, 2, figsize=(12, 6))
@@ -59,40 +62,11 @@ class DataVisualiser:
         self.draw_constant_line(ax=ax_hum, mode='humidity')
 
         # Set figure's title
-        fig.suptitle('Data Visualisation with Matplotlib', fontsize=20)
+        fig_title = 'Data Visualisation with Matplotlib from {} to {}'.format(self._start_date, self._end_date)
+        fig.suptitle(fig_title, fontsize=16)
 
         # Save figure as PNG image file
         plt.savefig('visualise_matplotlib.png')
-
-    # ==================================================================================
-
-    def plot_seaborn(self, fig, ax_temp, ax_hum):
-        """
-            Visualisation with Seaborn
-        -------------------------------------------------
-        @fig: Figure object to contain plots
-        @ax_temp: Subplot object for temperature plot
-        @ax_hum: Subplot object for humidity plot
-        """
-        # Red line chart for temperature
-        sns.lineplot(x='index', y='temperature', color='red', label='Temperature',
-                     data=self._df.reset_index(), ax=ax_temp)
-        ax_temp.set_ylabel('Degree C')
-        self.draw_constant_line(ax=ax_temp, mode='temperature')
-
-        # Blue line chart for humidity
-        sns.lineplot(x='index', y='humidity', color='blue', label='Humidity',
-                     data=self._df.reset_index(), ax=ax_hum)
-        ax_hum.set_ylabel('%')
-        self.draw_constant_line(ax=ax_hum, mode='humidity')
-
-        # Set figure's title
-        fig.suptitle('Data Visualisation with Seaborn', fontsize=20)
-
-        # Save figure as PNG image file
-        plt.savefig('visualise_seaborn.png')
-
-    # ==================================================================================
 
     def draw_constant_line(self, ax, mode):
         """
@@ -107,6 +81,40 @@ class DataVisualiser:
                    linestyle='dashed', label='Lower threshold')
         ax.legend()
         ax.get_xaxis().set_visible(False)
+
+    # ==================================================================================
+
+    def plot_seaborn(self, fig, ax_temp, ax_hum):
+        """
+            Visualisation with Seaborn
+        -------------------------------------------------
+        @fig: Figure object to contain plots
+        @ax_temp: Subplot object for temperature plot
+        @ax_hum: Subplot object for humidity plot
+        """
+        self._df['max_temp'] = self._config['max_temperature']
+        self._df['min_temp'] = self._config['min_temperature']
+        self._df['max_hum'] = self._config['max_humidity']
+        self._df['min_hum'] = self._config['min_humidity']
+
+        # Red line chart for temperature
+        with sns.color_palette('husl'):
+            sns.lineplot(data=self._df[['temperature', 'min_temp', 'max_temp']], ax=ax_temp)
+            ax_temp.legend(['Temperature', 'Upper threshold', 'Lower threshold'])
+            ax_temp.set_ylabel('Degree C')
+
+        # Blue line chart for humidity
+        with sns.color_palette('GnBu_d'):
+            sns.lineplot(data=self._df[['humidity', 'min_hum', 'max_hum']], ax=ax_hum)
+            ax_hum.legend(['Temperature', 'Upper threshold', 'Lower threshold'])
+            ax_hum.set_ylabel('%')
+
+        # Set figure's title
+        fig_title = 'Data Visualisation with Seaborn from {} to {}'.format(self._start_date, self._end_date)
+        fig.suptitle(fig_title, fontsize=16)
+
+        # Save figure as PNG image file
+        plt.savefig('visualise_seaborn.png')
 
 # =======================================================================================
 
