@@ -2,7 +2,7 @@
 
 **Group**: 3.14
 
-**Members:** Nguyen Le Bao Anh (s3616128) - 
+**Members:** Nguyen Le Bao Anh (s3616128) -  Tran Thi Hong Phuong (s3623386)
 
 **Github: [Link](https://github.com/usefulmana/IoT---Assignment-I---Green-House-Monitor)** <br> 
 
