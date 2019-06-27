@@ -11,7 +11,13 @@ class DataVisualiser:
         with open('config.json') as config_file:
             self._config = json.load(config_file)
 
+    # ==================================================================================
+
     def visualise_report(self, using_plt=True):
+        """
+            Generate graphs, show figures and save as PNG file
+        @using_plt: True to plot with Matplotlib, False to plot with Seaborn
+        """
         # Using Seaborn style if specified
         if not using_plt:
             sns.set()
@@ -33,10 +39,15 @@ class DataVisualiser:
         plt.show()
 
     # ==================================================================================
-    # Visualisation with Matplotlib
-    # ==================================================================================
 
     def plot_pyplot(self, fig, ax_temp, ax_hum):
+        """
+            Visualisation with Matplotlib
+        -------------------------------------------------
+        @fig: Figure object to contain plots
+        @ax_temp: Subplot object for temperature plot
+        @ax_hum: Subplot object for humidity plot
+        """
         # Red line chart for temperature
         ax_temp.plot(self._df['temperature'], color='red', label='Recorded temperature')
         ax_temp.set_ylabel('Degree C')
@@ -54,10 +65,15 @@ class DataVisualiser:
         plt.savefig('visualise_matplotlib.png')
 
     # ==================================================================================
-    # Visualisation with Seaborn
-    # ==================================================================================
 
     def plot_seaborn(self, fig, ax_temp, ax_hum):
+        """
+            Visualisation with Seaborn
+        -------------------------------------------------
+        @fig: Figure object to contain plots
+        @ax_temp: Subplot object for temperature plot
+        @ax_hum: Subplot object for humidity plot
+        """
         # Red line chart for temperature
         sns.lineplot(x='index', y='temperature', color='red', label='Temperature',
                      data=self._df.reset_index(), ax=ax_temp)
@@ -77,16 +93,22 @@ class DataVisualiser:
         plt.savefig('visualise_seaborn.png')
 
     # ==================================================================================
-    # Visualisation with Seaborn
-    # ==================================================================================
 
     def draw_constant_line(self, ax, mode):
+        """
+            Draw constant horizontal line as value thresholds
+        ------------------------------------------------------
+        @ax: Subplot object
+        @mode: Either 'temperature' or 'humidity'
+        """
         ax.axhline(y=self._config['max_{}'.format(mode)], color='green', linewidth=1,
                    linestyle='dashed', label='Upper threshold')
         ax.axhline(y=self._config['min_{}'.format(mode)], color='olive', linewidth=1,
                    linestyle='dashed', label='Lower threshold')
         ax.legend()
         ax.get_xaxis().set_visible(False)
+
+# =======================================================================================
 
 
 if __name__ == '__main__':
