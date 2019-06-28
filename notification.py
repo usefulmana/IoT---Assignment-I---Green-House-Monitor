@@ -2,6 +2,7 @@ from pushbullet import PushBullet
 from pushbullet.errors import PushbulletError, InvalidKeyError, PushError
 from json_parser import Parser
 
+
 class Notification:
     """This class stores the method to send notification via PushBullet API"""
     _instance = None

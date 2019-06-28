@@ -29,8 +29,8 @@ class GreenHouseMonitor:
         self._database.save_data(record_time, calibrated_temp, humidity)
 
         # Displaying current temp and humidity
-        self._sense.show_message(str(int(calibrated_temp)) + '*C', text_colour=[255, 0, 0])
-        self._sense.show_message(str(int(humidity)) + '%', text_colour=[0, 0, 255])
+        self._sense.show_message(str(round(calibrated_temp)) + '*C', text_colour=[255, 0, 0])
+        self._sense.show_message(str(round(humidity)) + '%', text_colour=[0, 0, 255])
         # Checking temperature and humidity of they are within range
         temp_status = self._checker.check_temperature(calibrated_temp)
         humidity_status = self._checker.check_humidity(humidity)

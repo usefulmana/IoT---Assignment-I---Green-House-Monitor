@@ -64,7 +64,7 @@ class Report:
 
 
 if __name__ == '__main__':
-    time.sleep(10)
+    time.sleep(5)
     database = Database.get_instance()
     Report.create_report("report.csv", database.read_daily_notification())
     Report.create_detailed_report("detailed_data.csv")

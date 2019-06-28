@@ -1,6 +1,9 @@
 import pandas as pd
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import seaborn as sns
+import time
 import json
 
 
@@ -100,13 +103,13 @@ class DataVisualiser:
         # Red line chart for temperature
         with sns.color_palette('husl'):
             sns.lineplot(data=self._df[['temperature', 'min_temp', 'max_temp']], ax=ax_temp)
-            ax_temp.legend(['Temperature', 'Upper threshold', 'Lower threshold'])
+            ax_temp.legend(['Temperature', 'Lower threshold', 'Upper threshold'])
             ax_temp.set_ylabel('Degree C')
 
         # Blue line chart for humidity
         with sns.color_palette('GnBu_d'):
             sns.lineplot(data=self._df[['humidity', 'min_hum', 'max_hum']], ax=ax_hum)
-            ax_hum.legend(['Humidity', 'Upper threshold', 'Lower threshold'])
+            ax_hum.legend(['Humidity', 'Lower threshold', 'Upper threshold'])
             ax_hum.set_ylabel('%')
 
         # Set figure's title
@@ -120,6 +123,7 @@ class DataVisualiser:
 
 
 if __name__ == '__main__':
+    time.sleep(5)
     data_visualiser = DataVisualiser()
     data_visualiser.visualise_report(using_plt=True)
     data_visualiser.visualise_report(using_plt=False)

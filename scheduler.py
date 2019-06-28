@@ -7,6 +7,7 @@ class Scheduler:
     @staticmethod
     def run_script():
         pi_cron = CronTab(user='pi')
+        # Clear all previous cronjobs if any exists
         pi_cron.remove_all()
 
         # Schedule the monitor app to run every minute
@@ -19,10 +20,10 @@ class Scheduler:
             command="cd /home/pi/Desktop/IoT && /home/pi/miniconda3/envs/venv/bin/python3.5 bluetooth_messenger.py")
         schedule_bluetooth.minute.every(5)
 
-        # Schedule to create reports at 23:55 every day
+        # Schedule to create reports at 23:56 every day
         schedule_report = pi_cron.new(
             command="cd /home/pi/Desktop/IoT && /home/pi/miniconda3/envs/venv/bin/python3.5 createReport.py")
-        schedule_report.setall('55 23 * * *')
+        schedule_report.setall('56 23 * * *')
 
         # Create plots at 23:59 every day
         schedule_analytics = pi_cron.new(

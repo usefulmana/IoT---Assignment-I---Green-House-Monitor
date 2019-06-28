@@ -80,7 +80,7 @@ In order to run this program in your RPi, you will need to set up a local MySQL 
   "password": "your password",
   "API_KEY": "pushbullet api key"}
     ````
-- Pushbullet API KEY can be obtained  [here](https://www.pushbullet.com/).
+- Pushbullet API key can be obtained  [here](https://www.pushbullet.com/).
 ### Bluetooth
 To use the notification feature via BlueTooth, you must own a BlueTooth-capable device (your smartphone or laptop).
 - You will need to pair your device with RPi
